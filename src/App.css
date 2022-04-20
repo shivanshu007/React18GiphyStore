@@ -255,7 +255,25 @@ input:checked + .slider:before {
 @media screen and (max-width:800px) {
   .mode-switcher{
     flex-direction: column-reverse;
+    width: 40%;
   }
+  .search-area{
+    width: 70% !important;
+  }
+  .title{
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .mode-text{
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+.mode-text{
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 .loader-spin{
   width: 40px !important;

@@ -1,31 +1,30 @@
 import React, { Component } from "react";
-// import GIPHY from "./components/GIPHY";
 import SearchBar from "./components/SearchBar";
-import axios from "axios";
-import ReactLoading from "react-loading";
 import 'antd/dist/antd.css';
 import "./App.css"
-import { Skeleton, Switch, List, Avatar } from 'antd';
-import GIPHY from './components/GiphyComponent'
+import { Skeleton } from 'antd';
 import { connect } from "react-redux";
 import { trendingGifs, searchGifs } from "./store/action/userAction";
-// const GIPHY = React.lazy(() => import('./components/GIPHY'));
+import Loading from "react-loading";
+const GIPHY = React.lazy(() => import('./components/GiphyComponent'));
 
 
 class App extends Component {
     state = {
         gif: {},
-        limit: 25,
+        slimit: 15,
+        tlimit: 15,
         search: false,
         searchItem: "",
-        darkMode: false
+        darkMode: false,
+        isMoreContent: true,
     };
 
     componentDidMount() {
-        if (localStorage.getItem("darkMode") == 'true') {
+        if (localStorage.getItem("darkMode") === 'true') {
             this.setState({ darkMode: true });
         }
-        else if (localStorage.getItem("darkMode") == 'false') {
+        else if (localStorage.getItem("darkMode") === 'false') {
             this.setState({ darkMode: false });
         }
         else {
@@ -38,39 +37,43 @@ class App extends Component {
             threshold: 0.5
         };
         const box = document.getElementById('lastMarker');
-        let observer = new IntersectionObserver((entries) => {
-            // console.log("entry", entries);
-            if (entries[0].intersectionRatio <= 0) {
-                return;
-            };
+        let observer = new IntersectionObserver(() => {
             this.loadMore()
         }, options);
         observer.observe(box);
     }
-    trending = () => {
-        this.props.trendingGifs(this.state.limit)
+
+    trending = async () => {
+        let trendingRes = await this.props.trendingGifs(this.state.tlimit);
+        if (trendingRes === false) this.setState({ isMoreContent: false })
     };
 
     search = async (q, cb) => {
         this.setState({ searchItem: q });
         this.setState({ search: true });
-        const res = await this.props.searchGifs(this.state.searchItem, this.state.limit)
-        if (res === true) cb(false)
+        if (q == '') {
+            this.trending();
+            cb(false)
+        }
+        else {
+            let searchRes = await this.props.searchGifs(q, this.state.slimit);
+            if (searchRes === true && cb != null) { cb(false) }
+            else if (searchRes === false) { this.setState({ isMoreContent: false }) }
+        }
     };
 
     loadMore = () => {
-        this.setState({
-            limit: this.state.limit + 5
-        });
         if (this.state.search === true) {
+            this.setState({ slimit: this.state.slimit + 5 });
             this.search(this.state.searchItem);
         } else {
+            this.setState({ tlimit: this.state.tlimit + 5 })
             this.trending();
         }
     };
 
     handleMode = (e) => {
-        console.log("switch", e.target.checked);
+        // console.log("switch", e.target.checked);
         localStorage.setItem("darkMode", e.target.checked);
         this.setState({ darkMode: e.target.checked })
     }
@@ -84,7 +87,7 @@ class App extends Component {
                     <p className="title">Giphy Store</p>
                     <SearchBar onSearch={this.search} />
                     <div className="mode-switcher">
-                        {this.state.darkMode ? "Go Light" : "Go Dark"}
+                        <p className="mode-text">{this.state.darkMode ? "Go Light" : "Go Dark"}</p>
                         <label className="switch">
                             <input type="checkbox" checked={this.state.darkMode} onChange={e => this.handleMode(e)} />
                             <span className="slider round"></span>
@@ -92,22 +95,24 @@ class App extends Component {
                     </div>
                 </section>
                 <section className="content">
-                    <GIPHY gifs={this.state.gif} />
+                    <React.Suspense fallback={<Loading type="spin" className="loader-spin" color="#03e9f4" />}>
+                        <GIPHY gifs={this.state.gif} />
+                    </React.Suspense>
                 </section>
-                <ul id="lastMarker" >
-                    <li className="loader-block">
-                        <Skeleton active />
-                    </li>
-                </ul>
+                {
+                    this.state.isMoreContent
+                        ?
+                        <ul id="lastMarker" >
+                            <li className="loader-block">
+                                <Skeleton active />
+                            </li>
+                        </ul>
+                        :
+                        <div className="no-content">No More Content to show</div>
+                }
             </div>
         );
     }
 }
-const mapStateToProps = state => {
-    return { gifs: state.gifs.gifs };
-};
 
-
-
-
-export default connect(mapStateToProps, { trendingGifs, searchGifs })(App);
+export default connect((state) => { return { gifs: state.gifs.gifs } }, { trendingGifs, searchGifs })(App);

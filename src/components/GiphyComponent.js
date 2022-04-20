@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from 'react-redux'
-import Gallery from "react-stack-gallery";
-import GifPlayer from "react-gif-player";
+import Loading from "react-loading";
 
+const GifPlayer = React.lazy(() => import('react-gif-player'))
+const Gallery = React.lazy(() => import('react-stack-gallery'))
 
 const GIPHY = () => {
     const [gifs, setGifs] = useState([]);
@@ -14,18 +15,20 @@ const GIPHY = () => {
     }, [gifInRedux])
 
     return (
-        <Gallery>
-            {gifs && gifs.map((gif) => {
-                return (
-                    <div className="gif_player" key={gif.id}>
-                        <GifPlayer
-                            gif={gif.images.original.url}
-                            still={gif.images.original_still.url}
-                        />
-                    </div>
-                );
-            })}
-        </Gallery>
+        <React.Suspense fallback={<Loading type="spin" className="loader-spin" color="#03e9f4" />}>
+            <Gallery>
+                {gifs && gifs.map((gif) => {
+                    return (
+                        <div className="gif_player" key={gif.id}>
+                            <GifPlayer
+                                gif={gif.images.original.url}
+                                still={gif.images.original_still.url}
+                            />
+                        </div>
+                    );
+                })}
+            </Gallery>
+        </React.Suspense>
     );
 
 }

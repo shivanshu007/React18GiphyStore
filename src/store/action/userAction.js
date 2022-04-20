@@ -6,12 +6,12 @@ const api = axios.create({
     baseURL: process.env.GIF_API_URL || "https://api.giphy.com/v1/gifs"
 });
 export const trendingGifs = (limit) => async dispatch => {
-    console.log("Getting gifs from demo api", limit);
+    // console.log("Getting gifs from demo api", limit);
     try {
         const gifResponse = await api.get(`/trending`,
             {
                 params: {
-                    api_key: "EW6FR9fdQ2soYn8NoFZgPUk7AEQGZSXn",
+                    api_key: process.env.API_KEY || "EW6FR9fdQ2soYn8NoFZgPUk7AEQGZSXn",
                     limit: limit,
                     rating: "g"
                 }
@@ -20,6 +20,9 @@ export const trendingGifs = (limit) => async dispatch => {
             type: GET_GIF,
             payload: gifResponse.data
         })
+        if (gifResponse.data.data.length < limit) {
+            return false
+        }
         return true;
     }
     catch (e) {
@@ -35,7 +38,7 @@ export const searchGifs = (query, limit) => async dispatch => {
         const gifResponse = await api.get(`/search`,
             {
                 params: {
-                    api_key: "EW6FR9fdQ2soYn8NoFZgPUk7AEQGZSXn",
+                    api_key: process.env.API_KEY || "EW6FR9fdQ2soYn8NoFZgPUk7AEQGZSXn",
                     limit: limit,
                     rating: "g",
                     q: query,
@@ -47,6 +50,9 @@ export const searchGifs = (query, limit) => async dispatch => {
             type: GET_GIF,
             payload: gifResponse.data
         })
+        if (gifResponse.data.data.length < limit) {
+            return false
+        }
         return true;
     }
     catch (e) {
