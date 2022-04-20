@@ -95,6 +95,7 @@ class App extends Component {
                     </div>
                 </section>
                 <section className="content">
+                    <p>Click on any gif to play !</p>
                     <React.Suspense fallback={<Loading type="spin" className="loader-spin" color="#03e9f4" />}>
                         <GIPHY gifs={this.state.gif} />
                     </React.Suspense>
