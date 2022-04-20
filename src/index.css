@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.card {
+  outline: none;
+  border: 10px solid white;
+}
+.gif_player{
+  box-shadow:0 0 550px #03e9f4, 0 0 9px #03e9f4, 0 0 3px #03e9f4, 0 0 5px #21c5ce;
+  /* border: 1px solid #03e9f4; */
+}
+.dark{
+  color: #777d74;
+  background: #182039!important;
+}
+

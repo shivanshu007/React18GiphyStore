@@ -1,8 +1,11 @@
 .App {
   text-align: center;
+  position: relative;
+  font-family: "Montserrat";
+  background: #fff;
 }
 
-.App-logo {
+.App-log {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +38,231 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+tr {
+  height: 10vh
+}
+
+#modal {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#overlay {
+  background-color: #282c34;
+  opacity: 0.5;
+}
+
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+.header{
+  position: fixed;
+  width: 100%;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1%;
+  color: #03e9f4;
+  font-size: 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+  letter-spacing: 4px;
+  border: 2px solid #03e9f4;
+  background: inherit;
+  box-shadow:0 0 0px #03e9f4, 0 0 9px #03e9f4, 0 0 3px #03e9f4, 0 0 5px #03e9f4
+}
+.title{
+  color: inherit;
+  margin: 0;
+  font-size: 20px;
+}
+.content{
+  padding-top: 8%;
+}
+#lastMarker{
+  display: flex;
+  justify-content: space-around;
+  /* gap: 5%; */
+  /* padding: 3% 0; */
+}
+.search-area{
+  display: flex;
+  width: 40%;
+  height: 40px;
+  border: 1px solid;
+  justify-content: space-between;
+  border-radius: 25px;
+}
+.go {
+  position: relative;
+  display: inline-block;
+  /* padding: 10px 10px; */
+  color: #03e9f4;
+  /* margin: 8px 20px 0px 20px; */
+  font-size: 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.5s;
+  letter-spacing: 4px;
+  border: none;
+  background: rgba(0, 0, 0, 0);
+}
+
+.go:hover {
+  cursor: pointer;
+  /* background: #03e9f4;
+  color: #fff;
+  box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+    0 0 200px #03e9f4; */
+}
+
+.input-gif {
+  border-radius: 20px;
+  border: none;
+  margin: 10px 0;
+  outline: none;
+  padding: 0 20px;
+  background: inherit;
+  font-size: 15px;
+}
+.switch {
+  align-self: center;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #03e9f4;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #03e9f4;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.mode-switcher{
+  display: flex;
+  align-items: center;
+  gap: 1%;
+}
+@media screen and (max-width:800px) {
+  .mode-switcher{
+    flex-direction: column-reverse;
+  }
+}
+.loader-spin{
+  width: 40px !important;
+  padding: 1%;
+}
+.loader-block{
+  width: 80%;
+  padding: 2%;
+  box-shadow:0 0 0px #03e9f4, 0 0 9px #03e9f4, 0 0 3px #03e9f4, 0 0 5px #03e9f4
 }
